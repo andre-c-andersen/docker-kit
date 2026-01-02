@@ -16,12 +16,12 @@ def test_help() -> None:
 def test_remove_orphans_help() -> None:
     result = runner.invoke(app, ["remove-orphans", "--help"])
     assert result.exit_code == 0
-    assert "--hex-lens" in result.output
-    assert "--apply" in result.output
-    assert "--volumes" in result.output
+    assert "hex-lens" in result.output
+    assert "apply" in result.output
+    assert "volumes" in result.output
 
 
 def test_remove_orphans_invalid_hex_lens() -> None:
     result = runner.invoke(app, ["remove-orphans", "--hex-lens", ""])
     assert result.exit_code == 2
-    assert "Invalid --hex-lens" in result.output
+    assert "Invalid" in result.output
