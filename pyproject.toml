@@ -1,0 +1,66 @@
+[project]
+name = "docker-kit"
+version = "0.1.0"
+description = "A toolkit for common Docker tasks"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.9.0",
+]
+license = {text = "MIT"}
+keywords = ["docker", "cli", "toolkit", "containers"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: System :: Systems Administration",
+]
+
+[[project.authors]]
+name = "Andre C. Andersen"
+
+[project.urls]
+Homepage = "https://github.com/andre-c-andersen/docker-kit"
+Repository = "https://github.com/andre-c-andersen/docker-kit"
+Issues = "https://github.com/andre-c-andersen/docker-kit/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+docker-kit = "docker_kit.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["./src"]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.390",
+    "pytest>=8.0.0",
+    "ruff>=0.8.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+exclude = [".venv*"]
+
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "W",   # pycodestyle warnings
+    "UP",  # pyupgrade
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.pyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.12"
