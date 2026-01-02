@@ -23,13 +23,8 @@ def callback(ctx: typer.Context) -> None:
     pass
 
 
-@app.command("remove-orphans")
-def remove_orphans_cmd(
-    hex_lens: Annotated[str, typer.Option("--hex-lens", help="Allowed hex suffix lengths (comma-separated)")] = "12",
-    apply: Annotated[bool, typer.Option("--apply", help="Actually delete. Default is dry-run.")] = False,
-    volumes: Annotated[bool, typer.Option("--volumes", help="Also remove anonymous volumes (docker rm -v)")] = False,
-) -> None:
-    """Remove stopped containers with hex suffixes (orphaned compose containers)."""
+def _remove_orphans_impl(hex_lens: str, apply: bool, volumes: bool) -> None:
+    """Core implementation for removing orphaned containers."""
     try:
         allowed_lengths = parse_hex_lengths(hex_lens)
     except ValueError as e:
@@ -53,6 +48,24 @@ def remove_orphans_cmd(
     failed = remove_orphans(orphans, volumes=volumes)
     if failed > 0:
         raise typer.Exit(3)
+
+
+@app.command("remove-orphans")
+def remove_orphans_cmd(
+    hex_lens: Annotated[str, typer.Option("--hex-lens", help="Allowed hex suffix lengths (comma-separated)")] = "12",
+    apply: Annotated[bool, typer.Option("--apply", "-a", help="Actually delete. Default is dry-run.")] = False,
+    volumes: Annotated[bool, typer.Option("--volumes", "-v", help="Also remove anonymous volumes")] = False,
+) -> None:
+    """Remove stopped containers with hex suffixes (orphaned compose containers)."""
+    _remove_orphans_impl(hex_lens, apply, volumes)
+
+
+@app.command("nuke-kids")
+def nuke_kids_cmd(
+    hex_lens: Annotated[str, typer.Option("--hex-lens", help="Allowed hex suffix lengths (comma-separated)")] = "12",
+) -> None:
+    """Alias for 'remove-orphans --apply --volumes'."""
+    _remove_orphans_impl(hex_lens, apply=True, volumes=True)
 
 
 def main() -> None:

@@ -26,12 +26,22 @@ uvx docker-kit remove-orphans
 
 # Actually delete the containers
 uvx docker-kit remove-orphans --apply
+uvx docker-kit remove-orphans -a
 
 # Also remove anonymous volumes
 uvx docker-kit remove-orphans --apply --volumes
+uvx docker-kit remove-orphans -av
 
 # Custom hex suffix lengths (default: 12)
 uvx docker-kit remove-orphans --hex-lens 12,64
+```
+
+### nuke-kids
+
+Shorthand for `remove-orphans --apply --volumes`.
+
+```bash
+uvx docker-kit nuke-kids
 ```
 
 ## Development
