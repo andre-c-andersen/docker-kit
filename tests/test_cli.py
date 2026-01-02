@@ -16,9 +16,9 @@ def test_help() -> None:
 def test_remove_orphans_help() -> None:
     result = runner.invoke(app, ["remove-orphans", "--help"])
     assert result.exit_code == 0
-    assert "hex-lens" in result.output
-    assert "apply" in result.output
-    assert "volumes" in result.output
+    assert "Allowed hex suffix lengths" in result.output
+    assert "Actually delete" in result.output
+    assert "anonymous volumes" in result.output
 
 
 def test_remove_orphans_invalid_hex_lens() -> None:
